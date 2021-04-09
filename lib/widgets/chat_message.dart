@@ -1,3 +1,4 @@
+import 'package:bubble/bubble.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,9 @@ class ChatMessage extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.only(top: 5.0),
-            child: Text(text),
+            child: Bubble(
+              child: Text(text.replaceAll('{br}', '\n')),
+            ),
           )
         ],
       ))
@@ -45,7 +48,9 @@ class ChatMessage extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.only(top: 5.0),
-            child: Text(text),
+            child: Bubble(
+              child: Text(text),
+            ),
           )
         ],
       )),
