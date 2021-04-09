@@ -107,7 +107,7 @@ class _ChatPageState extends State<ChatPage> {
   void _response(query) async {
     _textController.clear();
 
-    String ans = await answer(query);
+    String ans = await answerTuling123(query);
 
     ChatMessage messageWidget = ChatMessage(
       text: ans,
