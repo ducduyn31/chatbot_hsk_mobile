@@ -1,13 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:thanhmaihskchatbot/utils/bot_dialog.dart';
+import 'package:thanhmaihskchatbot/widgets/image_button.dart';
 
-import 'chat_message.dart';
+import '../widgets/chat_message.dart';
 
 class ChatPage extends StatefulWidget {
-
   @override
   _ChatPageState createState() => _ChatPageState();
 }
@@ -19,24 +17,46 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-          children: [
-            Flexible(
-                child: ListView.builder(
-                  padding: EdgeInsets.all(8.0),
-                  reverse: true,
-                  itemBuilder: (_, int index) => _message[index],
-                  itemCount: _message.length,
-                )),
-            Divider(
-              height: 1.0,
+      appBar: AppBar(
+        title: Center(
+          child: Image.asset(
+            'assets/logo.png',
+            fit: BoxFit.contain,
+            height: 52,
+          ),
+        ),
+        backgroundColor: Colors.white,
+        actions: [
+          ImageButton(image: 'assets/options_icon.png')
+        ],
+      ),
+      body: Column(
+        children: [
+          Flexible(
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/background.png'),
+                    fit: BoxFit.cover),
+              ),
+              child: ListView.builder(
+                padding: EdgeInsets.all(8.0),
+                reverse: true,
+                itemBuilder: (_, int index) => _message[index],
+                itemCount: _message.length,
+              ),
             ),
-            Container(
-              decoration: BoxDecoration(color: Theme.of(context).cardColor),
-              child: _buildTextComposer(),
-            )
-          ],
-        ));
+          ),
+          Divider(
+            height: 1.0,
+          ),
+          Container(
+            decoration: BoxDecoration(color: Theme.of(context).cardColor),
+            child: _buildTextComposer(),
+          )
+        ],
+      ),
+    );
   }
 
   Widget _buildTextComposer() {
@@ -51,15 +71,15 @@ class _ChatPageState extends State<ChatPage> {
                   controller: _textController,
                   onSubmitted: _handleSubmitted,
                   decoration:
-                  InputDecoration.collapsed(hintText: "Send a message"),
+                      InputDecoration.collapsed(hintText: "Send a message"),
                 ),
               ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 4.0),
-                child: IconButton(
-                  icon: Icon(Icons.send),
+                child: ImageButton(
+                  image: 'assets/send_icon.png',
                   onPressed: () => _handleSubmitted(_textController.text),
-                ),
+                )
               )
             ],
           ),
@@ -88,8 +108,6 @@ class _ChatPageState extends State<ChatPage> {
     _textController.clear();
 
     String ans = await answer(query);
-
-    print(ans);
 
     ChatMessage messageWidget = ChatMessage(
       text: ans,

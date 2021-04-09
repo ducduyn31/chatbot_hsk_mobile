@@ -14,7 +14,7 @@ class ChatMessage extends StatelessWidget {
       Container(
         margin: EdgeInsets.only(right: 16.0),
         child: CircleAvatar(
-          child: Text('B'),
+          backgroundImage: AssetImage('assets/avatar_icon.png'),
         ),
       ),
       Expanded(
@@ -57,10 +57,7 @@ class ChatMessage extends StatelessWidget {
       Container(
         margin: EdgeInsets.only(left: 16.0),
         child: CircleAvatar(
-          child: Text(
-            this.name[0],
-            style: new TextStyle(fontWeight: FontWeight.bold),
-          ),
+          backgroundImage: AssetImage('assets/thanhmai.jpg'),
         ),
       )
     ];

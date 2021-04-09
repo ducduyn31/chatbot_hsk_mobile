@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:thanhmaihskchatbot/pages/landing_page.dart';
+import 'package:thanhmaihskchatbot/widgets/image_button.dart';
 
-import 'widgets/chat_page.dart';
+import 'pages/chat_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,15 +13,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
+        primarySwatch: Colors.lightBlue,
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Messenger'),
-        ),
-        body: ChatPage(),
+        body: LandingPage(),
       ),
       debugShowCheckedModeBanner: false,
     );
