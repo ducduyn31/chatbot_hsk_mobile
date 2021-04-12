@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:holding_gesture/holding_gesture.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 import 'package:thanhmaihskchatbot/utils/bot_dialog.dart';
 import 'package:thanhmaihskchatbot/widgets/image_button.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 import '../widgets/chat_message.dart';
 
@@ -13,6 +18,15 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final List<ChatMessage> _message = [];
   final TextEditingController _textController = new TextEditingController();
+
+  stt.SpeechToText _speech;
+  bool _isListening = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _speech = stt.SpeechToText();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +41,10 @@ class _ChatPageState extends State<ChatPage> {
         ),
         backgroundColor: Colors.white,
         actions: [
-          ImageButton(image: 'assets/options_icon.png')
+          ImageButton(
+            image: 'assets/options_icon.png',
+            size: Size.square(40),
+          )
         ],
       ),
       body: Column(
@@ -66,24 +83,68 @@ class _ChatPageState extends State<ChatPage> {
           margin: EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
             children: [
-              Flexible(
-                child: TextField(
-                  controller: _textController,
-                  onSubmitted: _handleSubmitted,
-                  decoration:
-                      InputDecoration.collapsed(hintText: "Send a message"),
+              // Flexible(
+              //   child: TextField(
+              //     controller: _textController,
+              //     onSubmitted: _handleSubmitted,
+              //     decoration:
+              //         InputDecoration.collapsed(hintText: "Send a message"),
+              //   ),
+              // ),
+              HoldDetector(
+                onHold: _listen,
+                onCancel: _stopListen,
+                child: ImageButton(
+                  image: 'assets/button.png',
+                  size: const Size(250, 40),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 4.0),
-                child: ImageButton(
-                  image: 'assets/send_icon.png',
-                  onPressed: () => _handleSubmitted(_textController.text),
-                )
-              )
+              // Container(
+              //   margin: EdgeInsets.symmetric(horizontal: 4.0),
+              //   child: ImageButton(
+              //     image: 'assets/send_icon.png',
+              //     onPressed: () => _handleSubmitted(_textController.text),
+              //     size: Size.square(40),
+              //   ),
+              // )
             ],
+            mainAxisAlignment: MainAxisAlignment.center,
           ),
         ));
+  }
+
+  void _listen() async {
+    if (!_isListening) {
+      bool available = await _speech.initialize(
+        onStatus: (val) => log('onStatus: $val'),
+        onError: (val) => log('onError: $val'),
+        options: [],
+      );
+
+      if (available) {
+        setState(() {
+          _isListening = true;
+        });
+
+        _speech.listen(
+          onResult: (val) {
+            _handleSubmitted(val.recognizedWords);
+          },
+          listenMode: ListenMode.confirmation,
+          partialResults: false,
+          localeId: 'zh-cn',
+        );
+      }
+    }
+  }
+
+  void _stopListen() async {
+    if (_isListening) {
+      setState(() {
+        _isListening = false;
+      });
+      _speech.stop();
+    }
   }
 
   void _handleSubmitted(String message) {
@@ -107,7 +168,10 @@ class _ChatPageState extends State<ChatPage> {
   void _response(query) async {
     _textController.clear();
 
-    String ans = await answerTuling123(query);
+    String ans = await Future.any([
+      answer(query),
+      Future.delayed(const Duration(seconds: 5)).then((value) => '> . <')
+    ]);
 
     ChatMessage messageWidget = ChatMessage(
       text: ans,

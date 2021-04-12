@@ -27,7 +27,7 @@ class LandingPage extends StatelessWidget {
                 ),
               );
             },
-            child: Text('Start Chebi'),
+            child: Text('开始'),
             style: ButtonStyle(
               shape: MaterialStateProperty.all(
                 RoundedRectangleBorder(

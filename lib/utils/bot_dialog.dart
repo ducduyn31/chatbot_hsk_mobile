@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:thanhmaihskchatbot/models/quinyunke_response.dart';
+import 'package:thanhmaihskchatbot/models/response.dart';
 import 'package:thanhmaihskchatbot/models/tuling123_response.dart';
 
 Future<String> answerQuingyunke(String message) async {
@@ -41,6 +42,21 @@ Future<String> answerTuling123(String message) async {
 
   if (response.statusCode == 200) {
     return Tuling123Response.fromJson(jsonDecode(response.body)).results[0]['values']['text'];
+  } else {
+    throw Exception('I am confused!');
+  }
+}
+
+Future<String> answer(String message) async {
+
+  Map<String, dynamic> queries = {
+    'message': message,
+  };
+
+  final response = await http.get(Uri.http('insight.techqila.com:8201', '', queries));
+
+  if (response.statusCode == 200) {
+    return SimpleResponse.fromJson(jsonDecode(response.body)).content;
   } else {
     throw Exception('I am confused!');
   }

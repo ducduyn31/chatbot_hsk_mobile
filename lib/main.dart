@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:thanhmaihskchatbot/pages/landing_page.dart';
-import 'package:thanhmaihskchatbot/widgets/image_button.dart';
-
-import 'pages/chat_page.dart';
 
 void main() {
   runApp(MyApp());

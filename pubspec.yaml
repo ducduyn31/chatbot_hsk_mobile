@@ -30,11 +30,14 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.1
   bubble: ^1.2.1
-  sliding_up_panel: ^1.0.2
+  speech_to_text: ^3.2.0
+  holding_gesture: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  flutter_launcher_icons: ^0.9.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -56,6 +59,7 @@ flutter:
    - assets/thanhmai.jpg
    - assets/options_icon.png
    - assets/mascot.png
+   - assets/button.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -82,3 +86,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/avatar_icon.png"
+
