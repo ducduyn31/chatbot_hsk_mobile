@@ -53,7 +53,7 @@ Future<String> answer(String message) async {
     'message': message,
   };
 
-  final response = await http.get(Uri.http('insight.techqila.com:8201', '', queries));
+  final response = await http.get(Uri.https('demo.techqila.com:8200', '', queries));
 
   if (response.statusCode == 200) {
     return SimpleResponse.fromJson(jsonDecode(response.body)).content;
