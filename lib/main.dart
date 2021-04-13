@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:thanhmaihskchatbot/pages/landing_page.dart';
 
 void main() {
-  HttpOverrides.global = new MyHttpOverrides();
+  // HttpOverrides.global = new MyHttpOverrides();
   runApp(MyApp());
 }
 

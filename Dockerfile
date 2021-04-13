@@ -1,7 +1,14 @@
-FROM python:3.8.9-alpine3.13
+FROM node:15.8.0
 
 WORKDIR /app
 
-COPY ./build/web/* /app/
+COPY /build/web /app/web
+COPY /key_techqila /app/ssl
+COPY server.js /app
+COPY package.json /app
 
-ENTRYPOINT ["python", "-m", "http.server"]
+RUN npm config set unsafe-perm true
+RUN npm install
+
+
+CMD ["npm", "start"]

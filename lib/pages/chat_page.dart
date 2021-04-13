@@ -83,14 +83,6 @@ class _ChatPageState extends State<ChatPage> {
           margin: EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
             children: [
-              // Flexible(
-              //   child: TextField(
-              //     controller: _textController,
-              //     onSubmitted: _handleSubmitted,
-              //     decoration:
-              //         InputDecoration.collapsed(hintText: "Send a message"),
-              //   ),
-              // ),
               HoldDetector(
                 onHold: _listen,
                 onCancel: _stopListen,
@@ -103,15 +95,23 @@ class _ChatPageState extends State<ChatPage> {
               //   image: 'assets/button.png',
               //   size: const Size(250, 40),
               //   onPressed: _listen,
-              // )
-              // Container(
-              //   margin: EdgeInsets.symmetric(horizontal: 4.0),
-              //   child: ImageButton(
-              //     image: 'assets/send_icon.png',
-              //     onPressed: () => _handleSubmitted(_textController.text),
-              //     size: Size.square(40),
-              //   ),
-              // )
+              // ),
+              Flexible(
+                child: TextField(
+                  controller: _textController,
+                  onSubmitted: _handleSubmitted,
+                  decoration:
+                  InputDecoration.collapsed(hintText: "Send a message"),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 4.0),
+                child: ImageButton(
+                  image: 'assets/send_icon.png',
+                  onPressed: () => _handleSubmitted(_textController.text),
+                  size: Size.square(40),
+                ),
+              )
             ],
             mainAxisAlignment: MainAxisAlignment.center,
           ),
@@ -133,13 +133,14 @@ class _ChatPageState extends State<ChatPage> {
 
         _speech.listen(
           onResult: (val) {
-            _handleSubmitted(val.recognizedWords);
+            // _handleSubmitted(val.recognizedWords);
+            _textController.text = val.recognizedWords;
           },
           listenMode: ListenMode.confirmation,
           partialResults: false,
           localeId: 'zh-cn',
         );
-      }
+      } else _stopListen();
     }
   }
 
@@ -174,7 +175,7 @@ class _ChatPageState extends State<ChatPage> {
     _textController.clear();
 
     String ans = await Future.any([
-      answer(query),
+      answerTuling123(query),
       Future.delayed(const Duration(seconds: 5)).then((value) => '> . <')
     ]);
 
